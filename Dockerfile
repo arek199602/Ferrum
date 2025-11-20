@@ -1,11 +1,14 @@
 FROM chromedp/headless-shell:latest
 
-ENV PORT=9222
+# Render przekaże PORT jako zmienną środowiskową (zazwyczaj 10000)
+EXPOSE 10000
 
-EXPOSE $PORT
+# WAŻNE: musimy uruchomić przez shell, żeby zmienna $PORT działała
+ENTRYPOINT ["/bin/sh", "-c"]
 
-CMD ["/headless-shell/headless-shell", \
-     "--remote-debugging-port=9222", \
-     "--remote-debugging-address=0.0.0.0", \
-     "--disable-gpu", \
-     "--no-sandbox"]
+CMD ["/headless-shell/headless-shell \
+     --remote-debugging-port=${PORT:-10000} \
+     --remote-debugging-address=0.0.0.0 \
+     --disable-gpu \
+     --no-sandbox \
+     --disable-dev-shm-usage"]
