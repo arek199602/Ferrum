@@ -1,6 +1,11 @@
-FROM browserless/chrome:latest
+FROM chromedp/headless-shell:latest
 
-ENV PORT=3000
-ENV CONNECTION_TIMEOUT=600000
+ENV PORT=9222
 
 EXPOSE $PORT
+
+CMD ["/headless-shell/headless-shell", \
+     "--remote-debugging-port=9222", \
+     "--remote-debugging-address=0.0.0.0", \
+     "--disable-gpu", \
+     "--no-sandbox"]
