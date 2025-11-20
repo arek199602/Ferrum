@@ -1,15 +1,6 @@
 FROM browserless/chrome:latest
 
-# Render przekaże PORT jako zmienną środowiskową
-ENV PORT=9222
+ENV PORT=3000
+ENV CONNECTION_TIMEOUT=600000
 
 EXPOSE $PORT
-
-CMD chromium-browser \
-    --remote-debugging-port=$PORT \
-    --remote-debugging-address=0.0.0.0 \
-    --headless \
-    --no-sandbox \
-    --disable-gpu \
-    --disable-dev-shm-usage \
-    --disable-setuid-sandbox
