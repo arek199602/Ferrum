@@ -1,14 +1,16 @@
-FROM chromedp/headless-shell:latest
+FROM ubuntu:22.04
 
-# Render przekaże PORT jako zmienną środowiskową (zazwyczaj 10000)
+RUN apt-get update && apt-get install -y \
+  chromium-browser \
+  && rm -rf /var/lib/apt/lists/*
+
 EXPOSE 10000
 
-# WAŻNE: musimy uruchomić przez shell, żeby zmienna $PORT działała
-ENTRYPOINT ["/bin/sh", "-c"]
-
-CMD ["/headless-shell/headless-shell \
-     --remote-debugging-port=${PORT:-10000} \
-     --remote-debugging-address=0.0.0.0 \
-     --disable-gpu \
-     --no-sandbox \
-     --disable-dev-shm-usage"]
+CMD chromium-browser \
+  --remote-debugging-port=${PORT:-10000} \
+  --remote-debugging-address=0.0.0.0 \
+  --headless \
+  --no-sandbox \
+  --disable-gpu \
+  --disable-dev-shm-usage \
+  --disable-setuid-sandbox
